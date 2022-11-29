@@ -1,3 +1,5 @@
+## for blog : https://www.georgeollis.com/exploring-azure-vwan-routes-propagations-and-labels/ 
+
 export LOCATION=uksouth
 export VWANNAME=vwan
 export virtual_hub_1=hub01
