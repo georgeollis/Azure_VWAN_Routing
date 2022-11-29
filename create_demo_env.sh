@@ -1,7 +1,7 @@
 export LOCATION=uksouth
 export VWANNAME=vwan
 export virtual_hub_1=hub01
-export RESOURCEGROUPNAME=rg-vwan-demo
+export RESOURCEGROUPNAME=rg-vwan-demo-1
 export virtual_hub_1_address_prefix=192.168.0.0/24
 
 export blue_virtual_network_name_1=vnet-blue-spoke-01
@@ -20,7 +20,7 @@ az network vwan create --name $VWANNAME --resource-group $RESOURCEGROUPNAME --lo
 export vwan_resource_id=$(az network vwan list --resource-group $RESOURCEGROUPNAME --query "[?name=='$VWANNAME'].id" -o tsv)
 
 az network vhub create --name $virtual_hub_1 --resource-group $RESOURCEGROUPNAME --address-prefix $virtual_hub_1_address_prefix --location $LOCATION --vwan $vwan_resource_id
-az network vhub wait --name $virtual_hub_1 --resource-group $RESOURCEGROUPNAME --created
+az network vhub wait --name $virtual_hub_1 --resource-group $RESOURCEGROUPNAME --updated
 
 az network vnet create --name $blue_virtual_network_name_1 --resource-group $RESOURCEGROUPNAME --address-prefixes $blue_virtual_network_1_address_prefix --location $LOCATION
 az network vnet create --name $blue_virtual_network_name_2 --resource-group $RESOURCEGROUPNAME --address-prefixes $blue_virtual_network_2_address_prefix --location $LOCATION
@@ -51,7 +51,7 @@ export virtual_network_id_red_02=$(az network vnet show --name $red_virtual_netw
 
 az network vhub connection create --name blue-spoke01 --remote-vnet $virtual_network_id_blue_01 --resource-group $RESOURCEGROUPNAME --vhub-name $virtual_hub_1 --associated $blue_route_table_id --labels blue --internet-security false
 az network vhub connection create --name blue-spoke02 --remote-vnet $virtual_network_id_blue_02 --resource-group $RESOURCEGROUPNAME --vhub-name $virtual_hub_1 --associated $blue_route_table_id --labels blue --internet-security false
-az network vhub connection create --name red-spoke02 --remote-vnet $virtual_network_id_red_01 --resource-group $RESOURCEGROUPNAME --vhub-name $virtual_hub_1 --associated $red_route_table_id --labels red --internet-security false
+az network vhub connection create --name red-spoke01 --remote-vnet $virtual_network_id_red_01 --resource-group $RESOURCEGROUPNAME --vhub-name $virtual_hub_1 --associated $red_route_table_id --labels red --internet-security false
 az network vhub connection create --name red-spoke02 --remote-vnet $virtual_network_id_red_02 --resource-group $RESOURCEGROUPNAME --vhub-name $virtual_hub_1 --associated $red_route_table_id --labels red --internet-security false
 
         
